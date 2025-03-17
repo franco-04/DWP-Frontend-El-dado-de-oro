@@ -1,0 +1,123 @@
+/* Estilos unificados para auth pages */
+.auth-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url('../../images/Fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+}
+
+.auth-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 4rem 2rem;
+    min-height: 90vh;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+}
+
+.auth-top-text {
+    text-align: left;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    border: 1px solid #FFD700;
+}
+
+.auth-top-text h1 {
+    font-size: 2.5rem;
+    color: #FFD700;
+    margin-bottom: 0.5rem;
+}
+
+.auth-top-text p {
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.auth-form-container {
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 2.5rem;
+    border-radius: 10px;
+    border: 2px solid #FFD700;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
+    color: #fff;
+}
+
+.auth-form-container h2 {
+    color: #FFD700;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #FFD700;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #111;
+    border: 1px solid #333;
+    border-radius: 5px;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.auth-input:focus {
+    border-color: #FFD700;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+.auth-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #FFD700;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.auth-button:hover {
+    background-color: #e6b800;
+    transform: translateY(-2px);
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #fff;
+}
+
+.auth-link a {
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+.auth-input[type="textarea"] {
+    min-height: 150px;
+    resize: vertical;
+  }

@@ -1,0 +1,89 @@
+.homepage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #000; /* Fondo negro */
+    color: #fff; /* Texto blanco */
+    font-family: 'Arial', sans-serif; /* Fuente moderna */
+}
+
+.homepage-main {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 4rem 2rem; /* Más padding vertical */
+    min-height: 90vh; /* Altura mínima para ocupar más espacio */
+    background-image: url('../images/Backgroundhomepage.png'); /* Fondo temático */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Efecto de parallax */
+}
+
+.content-container {
+    max-width: 600px;
+    text-align: right;
+    padding: 3rem; /* Más padding interno */
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo semitransparente oscuro */
+    border-radius: 10px;
+    border: 2px solid #FFD700; /* Borde dorado */
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); /* Sombra dorada */
+    margin-right: 2rem; /* Margen derecho para separar del borde */
+}
+
+.text-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem; /* Más espacio debajo del título */
+    color: #FFD700; /* Título dorado */
+}
+
+.text-container p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: #fff; /* Texto blanco */
+    line-height: 1.6; /* Espaciado entre líneas */
+}
+
+.buttons-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem; /* Más espacio arriba de los botones */
+}
+
+.login-button, .register-button {
+    padding: 0.8rem 2rem; /* Botones del mismo tamaño */
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    width: 150px; /* Ancho fijo para ambos botones */
+    text-align: center;
+}
+
+.login-button {
+    background-color: #FFD700; /* Fondo dorado */
+    color: #000; /* Texto negro */
+}
+
+.login-button:hover {
+    background-color: #e6b800; /* Dorado más oscuro al pasar el mouse */
+    transform: translateY(-2px); /* Efecto de elevación */
+}
+
+.register-button {
+    background-color: #333; /* Fondo gris oscuro */
+    color: #FFD700; /* Texto dorado */
+    border: 2px solid #FFD700; /* Borde dorado */
+}
+
+.register-button:hover {
+    background-color: #444; /* Gris más claro al pasar el mouse */
+    transform: translateY(-2px); /* Efecto de elevación */
+}
+.buttons-container a {
+    text-decoration: none; /* Elimina el subrayado */
+    color: inherit; /* Hereda el color del padre (botón) */
+}
