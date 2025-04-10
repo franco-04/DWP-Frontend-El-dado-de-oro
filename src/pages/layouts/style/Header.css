@@ -33,3 +33,38 @@
     background-color: #555;
 }
 
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+}
+
+.user-icon {
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.welcome-text {
+    color: #fff;
+    font-weight: 500;
+}
+
+.logout-button {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.logout-button:hover {
+    background: #bb2d3b;
+}
+
+.nav-link.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+}

@@ -117,3 +117,64 @@
 .auth-link a:hover {
     text-decoration: underline;
 }
+
+.auth-input.invalid {
+    border: 2px solid #ff4444;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+}
+
+.error-message {
+    color: #ff4444;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.qr-section {
+    text-align: center;
+    padding: 2rem;
+}
+
+.qr-section h2 {
+    margin-bottom: 1.5rem;
+    color: #FFD700;
+}
+
+.auth-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* registro.css */
+.qr-section {
+    text-align: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.qr-container {
+    padding: 20px;
+    background: white;
+    display: inline-block;
+    border-radius: 8px;
+    margin: 1rem 0;
+    border: 2px solid #e0e0e0;
+}
+
+.qr-section h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.qr-section p {
+    color: #7f8c8d;
+    margin: 1rem 0;
+}
