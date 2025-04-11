@@ -1,0 +1,66 @@
+/* Mantenemos los estilos auth- existentes y agregamos */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.profile-info-field {
+    background-color: #111 !important;
+    border: 1px solid #333 !important;
+    cursor: not-allowed !important;
+    color: #fff !important;
+    padding: 0.8rem !important;
+    border-radius: 5px !important;
+}
+
+.auth-info-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.auth-info-tag {
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid #FFD700;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #FFD700;
+}
+.auth-form-container {
+    max-width: 800px; /* Aumentamos el ancho máximo */
+    width: 90%; /* Usará 90% del espacio disponible hasta 800px */
+    margin: 2rem auto; /* Centrado vertical y horizontal */
+    padding: 3rem; /* Más padding para mejor espaciado */
+}
+.auth-loading {
+    color: #FFD700;
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.9);
+    min-height: 100vh;
+}
+/* En perfil.css */
+.auth-error {
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.1);
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ff4444;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.profile-actions .auth-button {
+    flex: 1;
+    padding: 0.8rem;
+    font-size: 0.9rem;
+}

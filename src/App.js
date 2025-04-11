@@ -6,6 +6,7 @@ import Contacto from './pages/contacpage/Contact';
 import Home from './homepage/homepage';
 import Recarga from './pages/recargapage/recargapage';
 import Juegos from './pages/juegospage/juegos';
+import Profile from './pages/perfilpage/perfil';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/contacto" element={<Contacto />} /> 
                 <Route path="/recarga" element={<Recarga />} />
                 <Route path="/juegos" element={<Juegos />} />
+                <Route path="/perfil" element={<Profile />} />
 
 
             </Routes>

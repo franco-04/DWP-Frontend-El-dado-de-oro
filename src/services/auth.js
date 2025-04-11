@@ -64,3 +64,36 @@ export const verifyMFA = async (mfaData) => {
         throw new Error(message);
     }
 };
+// Agregar nuevas funciones
+export const forgotPassword = async (email) => {
+  try {
+    const response = await api.post('/api/auth/forgot-password', { email });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.error || 'Error al enviar el código');
+  }
+};
+
+export const resetPassword = async (email, code, newPassword) => {
+  try {
+    const response = await api.post('/api/auth/reset-password', { 
+      email, 
+      code, 
+      newPassword 
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.error || 'Error al restablecer contraseña');
+  }
+};
+// Agrega esta nueva función
+export const updateUsername = async (newUsername) => {
+  try {
+    const response = await api.put('/api/auth/update-username', { 
+      newUsername 
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.error || 'Error actualizando usuario');
+  }
+};

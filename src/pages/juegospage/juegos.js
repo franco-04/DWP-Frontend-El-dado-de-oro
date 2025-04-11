@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 import tragamonedasImg from '../../images/tragamonedas.png';
@@ -6,6 +7,34 @@ import dadosImg from '../../images/dados.png';
 import './juegos.css';
 
 const Juegos = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login', { replace: true });
+            return;
+        }
+
+        const handlePopState = (e) => {
+            // Eliminar credenciales y redirigir
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            navigate('/login', { replace: true });
+            
+            // Limpiar todo el historial de navegación
+            window.history.pushState(null, null, window.location.href);
+        };
+
+        // Configurar el estado inicial de la historia
+        window.history.pushState(null, null, window.location.href);
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [navigate]);
+
     return (
         <div className="auth-page">
             <Header />

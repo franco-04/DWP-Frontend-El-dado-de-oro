@@ -1,9 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Importa useNavigate
 import Header from "../pages/layouts/Header";
 import Footer from "../pages/layouts/Footer";
 import "./homepage.css";
 
 const Homepage = () => {
+  const navigate = useNavigate(); // Crea la función de navegación
+
   return (
     <div className="homepage">
       <Header />
@@ -22,15 +25,17 @@ const Homepage = () => {
               en línea.
             </p>
             <div className="buttons-container">
-              <button className="login-button">
-                <a href="/login" className="no-underline text-inherit">
-                  Iniciar Sesión
-                </a>
+              <button 
+                className="login-button" 
+                onClick={() => navigate("/login")}
+              >
+                Iniciar Sesión
               </button>
-              <button className="register-button">
-                <a href="/registro" className="no-underline text-inherit">
-                  Registrarme
-                </a>
+              <button 
+                className="register-button" 
+                onClick={() => navigate("/registro")}
+              >
+                Registrarme
               </button>
             </div>
           </div>
