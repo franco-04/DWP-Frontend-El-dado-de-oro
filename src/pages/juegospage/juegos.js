@@ -15,6 +15,8 @@ const Juegos = () => {
   const [slots, setSlots] = useState(["?", "?", "?"]);
   const [isSpinning, setIsSpinning] = useState(false);
   const [diceResult, setDiceResult] = useState(null);
+  const [selectedNumber, setSelectedNumber] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -38,7 +40,6 @@ const Juegos = () => {
     };
   }, [navigate]);
 
-  // En el handlePlay del componente Juegos
   const handlePlay = async (gameType) => {
     setError("");
   
@@ -65,13 +66,36 @@ const Juegos = () => {
     }
   };
 
-
   const spinSlots = () => {
     setIsSpinning(true);
     setTimeout(() => {
-      const newSlots = Array.from({ length: 3 }, () =>
-        Math.floor(Math.random() * 5)
-      );
+      // Aumentar probabilidad a 50%
+      const willWin = Math.random() < 0.5;
+      
+      let newSlots;
+      if (willWin) {
+        // Si va a ganar, hacer todos los símbolos iguales
+        const randomSymbol = Math.floor(Math.random() * 5);
+        newSlots = [randomSymbol, randomSymbol, randomSymbol];
+      } else {
+        // Si no va a ganar, asegurarse de que al menos uno sea diferente
+        const firstSymbol = Math.floor(Math.random() * 5);
+        let secondSymbol, thirdSymbol;
+        
+        do {
+          secondSymbol = Math.floor(Math.random() * 5);
+        } while (secondSymbol === firstSymbol);
+        
+        // 50% probabilidad de que el tercero sea igual al primero o al segundo
+        if (Math.random() < 0.5) {
+          thirdSymbol = firstSymbol;
+        } else {
+          thirdSymbol = secondSymbol;
+        }
+        
+        newSlots = [firstSymbol, secondSymbol, thirdSymbol];
+      }
+      
       setSlots(newSlots);
       setIsSpinning(false);
       checkSlotWin(newSlots);
@@ -81,13 +105,21 @@ const Juegos = () => {
   const rollDice = () => {
     setDiceResult("...");
     setTimeout(() => {
-      const result = Array.from(
-        { length: 2 },
-        () => Math.floor(Math.random() * 6) + 1
-      );
-      setDiceResult(result.join(" - "));
+      // Probabilidad del 50% de ganar
+      const willWin = Math.random() < 0.5;
+      
+      const result = willWin ? selectedNumber : getRandomDifferentNumber(selectedNumber);
+      setDiceResult(result);
       checkDiceWin(result);
     }, 1500);
+  };
+
+  const getRandomDifferentNumber = (selected) => {
+    let result;
+    do {
+      result = Math.floor(Math.random() * 6) + 1;
+    } while (result === selected);
+    return result;
   };
 
   const checkSlotWin = async (slots) => {
@@ -103,7 +135,7 @@ const Juegos = () => {
   };
 
   const checkDiceWin = async (dice) => {
-    if (dice[0] === dice[1]) {
+    if (dice === selectedNumber) {
       try {
         await api.post('/api/user/add-fichas', { amount: 20 });
         window.dispatchEvent(new Event('fichasUpdated'));
@@ -112,6 +144,11 @@ const Juegos = () => {
         console.error('Error al añadir fichas:', error);
       }
     }
+  };
+
+  const handleStartDiceGame = () => {
+    setIsPlaying(true);
+    setDiceResult(null);
   };
 
   return (
@@ -157,6 +194,7 @@ const Juegos = () => {
                 {isSpinning ? "Girando..." : "Jugar (10 fichas)"}
               </button>
             </div>
+            
             {/* Tarjeta Dados */}
             <div className="juego-card">
               <div className="juego-imagen-container">
@@ -166,24 +204,53 @@ const Juegos = () => {
                   </div>
                 ) : (
                   <>
-                    <img
-                      src={dadosImg}
-                      alt="Juego de Dados"
-                      className="juego-imagen"
-                    />
-                    <div className="juego-overlay">
-                      <h3>Dados Dorados</h3>
-                      <p>Acierta la combinación ganadora</p>
-                    </div>
+                    {isPlaying ? (
+                      <div className="dice-selection">
+                        <h4>Selecciona un número:</h4>
+                        <div className="dice-options">
+                          {[1, 2, 3, 4, 5, 6].map((num) => (
+                            <button 
+                              key={num}
+                              className={`dice-option ${selectedNumber === num ? 'selected' : ''}`}
+                              onClick={() => setSelectedNumber(num)}
+                            >
+                              {num}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <img
+                          src={dadosImg}
+                          alt="Juego de Dados"
+                          className="juego-imagen"
+                        />
+                        <div className="juego-overlay">
+                          <h3>Dados Dorados</h3>
+                          <p>Elige un número y prueba tu suerte</p>
+                        </div>
+                      </>
+                    )}
                   </>
                 )}
               </div>
-              <button
-                className="auth-button juego-boton"
-                onClick={() => handlePlay("dados")}
-              >
-                Lanzar (10 fichas)
-              </button>
+              {!isPlaying ? (
+                <button
+                  className="auth-button juego-boton"
+                  onClick={handleStartDiceGame}
+                >
+                  Comenzar juego
+                </button>
+              ) : (
+                <button
+                  className="auth-button juego-boton"
+                  onClick={() => handlePlay("dados")}
+                  disabled={diceResult !== null}
+                >
+                  Lanzar dado (10 fichas)
+                </button>
+              )}
             </div>
           </div>
         </div>

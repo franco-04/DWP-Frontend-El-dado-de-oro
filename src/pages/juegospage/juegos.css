@@ -151,3 +151,216 @@
     opacity: 0.7;
     cursor: not-allowed;
 }
+.juegos-container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 2rem;
+}
+
+.juegos-titulo {
+    text-align: center;
+    color: #FFD700;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.juegos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.juego-card {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #FFD700;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.juego-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+}
+
+.juego-imagen-container {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.juego-imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.juego-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+    color: #fff;
+}
+
+.juego-overlay h3 {
+    color: #FFD700;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.juego-overlay p {
+    font-size: 1rem;
+    color: #ccc;
+}
+
+.juego-boton {
+    width: 100%;
+    border-radius: 0 0 8px 8px;
+    padding: 1.2rem;
+    font-size: 1.1rem;
+}
+
+/* Estilos para la selección de dados */
+.dice-selection {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dice-selection h4 {
+    color: #FFD700;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.dice-options {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.dice-option {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #FFD700;
+    background: #2c3e50;
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dice-option:hover {
+    background: #34495e;
+    transform: scale(1.05);
+}
+
+.dice-option.selected {
+    background: #FFD700;
+    color: #2c3e50;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .juegos-titulo {
+        font-size: 2rem;
+    }
+    
+    .juego-imagen-container {
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .juegos-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Centrar todo el contenedor principal */
+.juegos-container {
+    margin: 0 auto;
+}
+
+.error-message {
+    color: #ff4444;
+    background: #fff3f3;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 15px 0;
+    text-align: center;
+}
+
+.slots-animation {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    background: #2c3e50;
+    border-radius: 10px;
+    height: 100%;
+    align-items: center;
+}
+
+.slot {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    animation: spin 0.5s infinite;
+}
+
+.dice-animation {
+    padding: 20px;
+    background: #34495e;
+    border-radius: 10px;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dice-result {
+    font-size: 4em;
+    animation: roll 0.5s;
+    color: #FFD700;
+}
+
+@keyframes spin {
+    0% { transform: rotateX(0deg); }
+    100% { transform: rotateX(360deg); }
+}
+
+@keyframes roll {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
