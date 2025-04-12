@@ -1,13 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./style/Header.css";
 import logo from "../../images/Logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faCoins } from "@fortawesome/free-solid-svg-icons";
+import { getUserFichas } from '../../services/payments';
 
 const Header = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  const [tokenCount, setTokenCount] = useState(user?.fichas || 0);
+
+  // Fetch latest token count from API
+  useEffect(() => {
+    const fetchTokens = async () => {
+      if (user && localStorage.getItem('token')) {
+        try {
+          const result = await getUserFichas();
+          setTokenCount(result?.data?.fichas || 0); // Usar optional chaining
+          
+          const updatedUser = {...user, fichas: result?.data?.fichas || 0};
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+        } catch (err) {
+          console.error("Error fetching tokens:", err);
+        }
+      }
+    };
+
+    fetchTokens();
+    
+    // Set up a refresh interval (every 30 seconds)
+    const intervalId = setInterval(fetchTokens, 30000);
+    
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [user]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -20,7 +47,6 @@ const Header = () => {
     <header className="header">
       <NavLink to={user ? "/juegos" : "/"} exact>
         {" "}
-        {/* Cambio clave aquí */}
         <img src={logo} alt="Logo" className="logo" />
       </NavLink>
 
@@ -47,6 +73,10 @@ const Header = () => {
             <NavLink to="/perfil" className="welcome-text">
               Bienvenido, {user.username}
             </NavLink>
+            <div className="user-tokens">
+              <FontAwesomeIcon icon={faCoins} className="token-icon" />
+              <span className="token-count">{tokenCount}</span>
+            </div>
             <button onClick={handleLogout} className="logout-button">
               Cerrar Sesión
             </button>

@@ -95,3 +95,59 @@
 .juegos-container {
     margin: 0 auto;
 }
+.error-message {
+    color: #ff4444;
+    background: #fff3f3;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 15px 0;
+    text-align: center;
+}
+
+.slots-animation {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    background: #2c3e50;
+    border-radius: 10px;
+}
+
+.slot {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    animation: spin 0.5s infinite;
+}
+
+.dice-animation {
+    padding: 20px;
+    background: #34495e;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.dice-result {
+    font-size: 2.5em;
+    animation: roll 0.5s;
+}
+
+@keyframes spin {
+    0% { transform: rotateX(0deg); }
+    100% { transform: rotateX(360deg); }
+}
+
+@keyframes roll {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
