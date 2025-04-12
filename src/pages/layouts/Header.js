@@ -36,6 +36,29 @@ const Header = () => {
     return () => clearInterval(intervalId);
   }, [user]);
 
+  // Escuchar el evento de actualización de fichas
+  useEffect(() => {
+    const handleFichasUpdated = async () => {
+      if (user && localStorage.getItem('token')) {
+        try {
+          const result = await getUserFichas();
+          setTokenCount(result?.data?.fichas || 0);
+          
+          const updatedUser = {...user, fichas: result?.data?.fichas || 0};
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+        } catch (err) {
+          console.error("Error updating tokens:", err);
+        }
+      }
+    };
+
+    window.addEventListener('fichasUpdated', handleFichasUpdated);
+    
+    return () => {
+      window.removeEventListener('fichasUpdated', handleFichasUpdated);
+    };
+  }, [user]);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -59,6 +82,9 @@ const Header = () => {
 
         <NavLink to="/juegos" className="nav-link" activeClassName="active">
           Juegos
+        </NavLink>
+        <NavLink to="/productos" className="nav-link" activeClassName="active">
+          Productos
         </NavLink>
         <NavLink to="/contacto" className="nav-link" activeClassName="active">
           Contacto

@@ -7,6 +7,7 @@ import Home from './homepage/homepage';
 import Recarga from './pages/recargapage/recargapage';
 import Juegos from './pages/juegospage/juegos';
 import Profile from './pages/perfilpage/perfil';
+import Productos from './pages/productospage/productos';
 
 
 function App() {
@@ -20,8 +21,7 @@ function App() {
                 <Route path="/recarga" element={<Recarga />} />
                 <Route path="/juegos" element={<Juegos />} />
                 <Route path="/perfil" element={<Profile />} />
-
-
+                <Route path="/productos" element={<Productos />} />
             </Routes>
         </Router>
     );

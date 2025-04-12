@@ -46,8 +46,7 @@ export const getTransactions = async () => {
   }
 };
 
-
-// services/payments.js
+// Deducir fichas del usuario
 export const deductFichas = async (amount) => {
   try {
     const response = await api.post('/api/user/deduct-fichas', { amount });
@@ -57,5 +56,18 @@ export const deductFichas = async (amount) => {
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.error || 'Error al deducir fichas');
+  }
+};
+
+// Canjear fichas por productos
+export const canjearProducto = async (productoId, precioFichas) => {
+  try {
+    const response = await api.post('/api/user/canjear-producto', { 
+      productoId, 
+      precioFichas 
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.error || 'Error al canjear el producto');
   }
 };

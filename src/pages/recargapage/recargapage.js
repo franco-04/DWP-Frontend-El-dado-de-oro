@@ -115,11 +115,7 @@ const Recarga = () => {
                     <div className="recarga-header">
                         <h1>Recarga de Fichas</h1>
                         <p>Selecciona tu paquete preferido</p>
-                        {currentFichas !== null && (
-                            <div className="saldo-actual">
-                                <span>Tu saldo actual: <strong>{currentFichas} fichas</strong></span>
-                            </div>
-                        )}
+
                     </div>
                     
                     {error && (

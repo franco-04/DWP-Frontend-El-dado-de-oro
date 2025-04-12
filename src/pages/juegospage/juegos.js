@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
@@ -9,6 +9,27 @@ import { deductFichas } from "../../services/payments";
 import { getUserFichas } from "../../services/payments";
 import api from '../../services/api';
 
+const WinModal = ({ message, onClose }) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onClose();
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <div className="win-modal-container">
+      <div className="win-modal-content">
+        <div className="confetti"></div>
+        <div className="confetti"></div>
+        <div className="confetti"></div>
+        <div className="win-modal-message">{message}</div>
+        <div className="sparkles">✨✨✨</div>
+      </div>
+    </div>
+  );
+};
+
 const Juegos = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -17,6 +38,13 @@ const Juegos = () => {
   const [diceResult, setDiceResult] = useState(null);
   const [selectedNumber, setSelectedNumber] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showWinModal, setShowWinModal] = useState(false);
+  const [winMessage, setWinMessage] = useState("");
+  
+  // Refs para las animaciones de los slots
+  const slotRefs = [useRef(null), useRef(null), useRef(null)];
+  const [slotSymbols] = useState(["🍒", "🍊", "🍋", "💎", "7️⃣"]);
+  const [visibleSymbols, setVisibleSymbols] = useState([0, 0, 0]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -66,46 +94,81 @@ const Juegos = () => {
     }
   };
 
-  const spinSlots = () => {
-    setIsSpinning(true);
-    setTimeout(() => {
-      // Aumentar probabilidad a 50%
-      const willWin = Math.random() < 0.5;
-      
-      let newSlots;
-      if (willWin) {
-        // Si va a ganar, hacer todos los símbolos iguales
-        const randomSymbol = Math.floor(Math.random() * 5);
-        newSlots = [randomSymbol, randomSymbol, randomSymbol];
-      } else {
-        // Si no va a ganar, asegurarse de que al menos uno sea diferente
-        const firstSymbol = Math.floor(Math.random() * 5);
-        let secondSymbol, thirdSymbol;
-        
-        do {
-          secondSymbol = Math.floor(Math.random() * 5);
-        } while (secondSymbol === firstSymbol);
-        
-        // 50% probabilidad de que el tercero sea igual al primero o al segundo
-        if (Math.random() < 0.5) {
-          thirdSymbol = firstSymbol;
-        } else {
-          thirdSymbol = secondSymbol;
-        }
-        
-        newSlots = [firstSymbol, secondSymbol, thirdSymbol];
+  const updateSlotAnimation = (slotIndex, finalSymbol) => {
+    if (!slotRefs[slotIndex].current) return;
+    
+    let currentPos = 0;
+    const animationDuration = 1000 + slotIndex * 500;
+    const interval = 100;
+    const totalSteps = animationDuration / interval;
+    let currentStep = 0;
+    
+    const animateSlot = () => {
+      if (currentStep >= totalSteps) {
+        setVisibleSymbols(prev => {
+          const newSymbols = [...prev];
+          newSymbols[slotIndex] = finalSymbol;
+          return newSymbols;
+        });
+        return;
       }
       
-      setSlots(newSlots);
+      currentPos = Math.floor(Math.random() * slotSymbols.length);
+      setVisibleSymbols(prev => {
+        const newSymbols = [...prev];
+        newSymbols[slotIndex] = currentPos;
+        return newSymbols;
+      });
+      
+      currentStep++;
+      setTimeout(animateSlot, interval);
+    };
+    
+    animateSlot();
+  };
+
+  const spinSlots = () => {
+    setIsSpinning(true);
+    
+    const willWin = Math.random() < 0.5;
+    
+    let finalSlots;
+    if (willWin) {
+      const randomSymbol = Math.floor(Math.random() * 5);
+      finalSlots = [randomSymbol, randomSymbol, randomSymbol];
+    } else {
+      const firstSymbol = Math.floor(Math.random() * 5);
+      let secondSymbol, thirdSymbol;
+      
+      do {
+        secondSymbol = Math.floor(Math.random() * 5);
+      } while (secondSymbol === firstSymbol);
+      
+      if (Math.random() < 0.5) {
+        thirdSymbol = firstSymbol;
+      } else {
+        thirdSymbol = secondSymbol;
+      }
+      
+      finalSlots = [firstSymbol, secondSymbol, thirdSymbol];
+    }
+    
+    finalSlots.forEach((symbol, index) => {
+      setTimeout(() => {
+        updateSlotAnimation(index, symbol);
+      }, 200 * index);
+    });
+    
+    setTimeout(() => {
+      setSlots(finalSlots);
       setIsSpinning(false);
-      checkSlotWin(newSlots);
-    }, 2000);
+      checkSlotWin(finalSlots);
+    }, 2500);
   };
 
   const rollDice = () => {
     setDiceResult("...");
     setTimeout(() => {
-      // Probabilidad del 50% de ganar
       const willWin = Math.random() < 0.5;
       
       const result = willWin ? selectedNumber : getRandomDifferentNumber(selectedNumber);
@@ -127,7 +190,8 @@ const Juegos = () => {
       try {
         await api.post('/api/user/add-fichas', { amount: 50 });
         window.dispatchEvent(new Event('fichasUpdated'));
-        alert('¡Ganaste 50 fichas!');
+        setWinMessage('🎉 ¡Ganaste 50 fichas! 🎉');
+        setShowWinModal(true);
       } catch (error) {
         console.error('Error al añadir fichas:', error);
       }
@@ -139,7 +203,8 @@ const Juegos = () => {
       try {
         await api.post('/api/user/add-fichas', { amount: 20 });
         window.dispatchEvent(new Event('fichasUpdated'));
-        alert('¡Ganaste 20 fichas!');
+        setWinMessage('🎲 ¡Número correcto! +20 fichas 🎉');
+        setShowWinModal(true);
       } catch (error) {
         console.error('Error al añadir fichas:', error);
       }
@@ -151,6 +216,10 @@ const Juegos = () => {
     setDiceResult(null);
   };
 
+  const resetDiceGame = () => {
+    setDiceResult(null);
+  };
+
   return (
     <div className="auth-page">
       <Header />
@@ -159,28 +228,43 @@ const Juegos = () => {
           <h1 className="juegos-titulo">Nuestros Juegos</h1>
           {error && <div className="error-message">{error}</div>}
           <div className="juegos-grid">
-            {/* Tarjeta Tragamonedas */}
             <div className="juego-card">
               <div className="juego-imagen-container">
                 {isSpinning ? (
                   <div className="slots-animation">
-                    {slots.map((slot, i) => (
-                      <div key={i} className="slot">
-                        {["🍒", "🍊", "🍋", "💎", "7️⃣"][slot]}
+                    {[0, 1, 2].map((i) => (
+                      <div 
+                        key={i} 
+                        className="slot spinning-slot" 
+                        ref={slotRefs[i]}
+                      >
+                        {slotSymbols[visibleSymbols[i]]}
                       </div>
                     ))}
                   </div>
                 ) : (
                   <>
-                    <img
-                      src={tragamonedasImg}
-                      alt="Tragamonedas"
-                      className="juego-imagen"
-                    />
-                    <div className="juego-overlay">
-                      <h3>Tragamonedas Clásico</h3>
-                      <p>Gira los rodillos y gana grandes premios</p>
-                    </div>
+                    {slots[0] === "?" ? (
+                      <>
+                        <img
+                          src={tragamonedasImg}
+                          alt="Tragamonedas"
+                          className="juego-imagen"
+                        />
+                        <div className="juego-overlay">
+                          <h3>Tragamonedas Clásico</h3>
+                          <p>Gira los rodillos y gana grandes premios</p>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="slots-animation">
+                        {slots.map((slot, i) => (
+                          <div key={i} className="slot">
+                            {slotSymbols[slot]}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </>
                 )}
               </div>
@@ -195,7 +279,6 @@ const Juegos = () => {
               </button>
             </div>
             
-            {/* Tarjeta Dados */}
             <div className="juego-card">
               <div className="juego-imagen-container">
                 {diceResult ? (
@@ -242,11 +325,17 @@ const Juegos = () => {
                 >
                   Comenzar juego
                 </button>
+              ) : diceResult ? (
+                <button
+                  className="auth-button juego-boton"
+                  onClick={resetDiceGame}
+                >
+                  Jugar de nuevo
+                </button>
               ) : (
                 <button
                   className="auth-button juego-boton"
                   onClick={() => handlePlay("dados")}
-                  disabled={diceResult !== null}
                 >
                   Lanzar dado (10 fichas)
                 </button>
@@ -255,6 +344,12 @@ const Juegos = () => {
           </div>
         </div>
       </main>
+      {showWinModal && (
+        <WinModal 
+          message={winMessage}
+          onClose={() => setShowWinModal(false)}
+        />
+      )}
       <Footer />
     </div>
   );

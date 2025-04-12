@@ -1,0 +1,180 @@
+.productos-container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 2rem;
+    margin: 0 auto;
+}
+
+.productos-titulo {
+    text-align: center;
+    color: #FFD700;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.fichas-disponibles {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    border: 1px solid #FFD700;
+}
+
+.fichas-count {
+    color: #FFD700;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin-left: 5px;
+}
+
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.producto-card {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #FFD700;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.producto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+}
+
+.producto-imagen-container {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.producto-imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.producto-card:hover .producto-imagen {
+    opacity: 1;
+}
+
+.producto-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+    color: #fff;
+}
+
+.producto-overlay h3 {
+    color: #FFD700;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.producto-overlay p {
+    font-size: 1rem;
+    color: #ccc;
+}
+
+.producto-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 215, 0, 0.3);
+    margin-top: auto;
+}
+
+.producto-precio {
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    color: #FFD700;
+    font-weight: bold;
+}
+
+.fichas-icon {
+    margin-left: 5px;
+    font-size: 1.2rem;
+}
+
+.producto-boton {
+    background-color: #FFD700;
+    color: #000;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.producto-boton:hover:not(.disabled) {
+    background-color: #f0c800;
+    transform: translateY(-2px);
+}
+
+.producto-boton.disabled {
+    background-color: #777;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.error-message {
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 15px 0;
+    text-align: center;
+    border: 1px solid #ff4444;
+}
+
+.success-message {
+    color: #00cc44;
+    background: rgba(0, 204, 68, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 15px 0;
+    text-align: center;
+    border: 1px solid #00cc44;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .productos-titulo {
+        font-size: 2rem;
+    }
+    
+    .producto-imagen-container {
+        height: 200px;
+    }
+    
+    .producto-footer {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .productos-grid {
+        grid-template-columns: 1fr;
+    }
+}
